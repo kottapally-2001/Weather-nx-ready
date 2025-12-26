@@ -5,8 +5,11 @@ const locationInput = document.getElementById('location');
 const weatherInfo = document.getElementById('weather-info');
 const loading = document.getElementById('loading');
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const city = locationInput.value.trim();
   if (!city) return;
 
@@ -14,7 +17,7 @@ form.addEventListener('submit', async (e) => {
   weatherInfo.innerHTML = '';
 
   try {
-    const res = await fetch(`http://localhost:3000/weather?city=${city}`);
+    const res = await fetch(`${API_URL}/weather?city=${city}`);
     const data = await res.json();
 
     weatherInfo.innerHTML = `
@@ -23,7 +26,8 @@ form.addEventListener('submit', async (e) => {
       <p>${data.desc}</p>
     `;
   } catch {
-    weatherInfo.innerHTML = '<p style="color:red;">Could not fetch weather</p>';
+    weatherInfo.innerHTML =
+      '<p style="color:red;">Could not fetch weather</p>';
   } finally {
     loading.hidden = true;
   }
